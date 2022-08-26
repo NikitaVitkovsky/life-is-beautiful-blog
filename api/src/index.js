@@ -1,30 +1,30 @@
 import express from 'express'
 import {ApolloServer} from 'apollo-server-express'
-
 import jwt from 'jsonwebtoken'
-
-// secure deps
 import helmet from 'helmet'
 import cors from 'cors'
-
-// limit deps
 import depthLimit from 'graphql-depth-limit'
 import {createComplexityLimitRule} from 'graphql-validation-complexity'
-
-//environment variables
 import dotenv from 'dotenv'
 dotenv.config()
 
+//environment variables
 const PORT = process.env.APP_PORT || 4000
 const DB_HOST = process.env.DB_HOST
 const JWT_SECRET = process.env.JWT_SECRET
 const NODE_ENV = process.env.NODE_ENV
 
 import db from './db.js'
-
 import models from './models/index.js'
 import resolvers from './resolvers/index.js'
 import {default as typeDefs} from './schemas/mainSchema.js'
+
+const app = express()
+
+// Connect to the database
+db.connect(DB_HOST)
+app.use(helmet())
+app.use(cors())
 
 async function startExpressApolloServer() {
     // get the user info from a JWT
@@ -59,16 +59,7 @@ async function startExpressApolloServer() {
         }
     })
     await server.start()
-
-    const app = express()
-
-    app.use(helmet())
-    app.use(cors())
-
-    // Connect to the database
-    db.connect(DB_HOST)
-
-    server.applyMiddleware({app, path: '/api/graphql'})
+    server.applyMiddleware({app, path: '/api'})
 
     await new Promise(resolve => app.listen({port: PORT}, resolve))
     console.log(`Server running at http://localhost:${PORT}${server.graphqlPath}`)
