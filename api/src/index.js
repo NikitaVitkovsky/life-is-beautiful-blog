@@ -1,36 +1,63 @@
-const express = require('express')
-const { ApolloServer, gql } = require('apollo-server-express')
+import express from 'express'
+import {ApolloServer} from 'apollo-server-express'
+import jwt from 'jsonwebtoken'
 
-require('dotenv').config()
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const PORT = process.env.APP_PORT || 4000
+const DB_HOST = process.env.DB_HOST
+const JWT_SECRET = process.env.JWT_SECRET
+const NODE_ENV = process.env.NODE_ENV
 
-const typeDefs = gql`
-    type Query {
-        hello: String
-    }
-`
-const resolvers = {
-    Query: {
-        hello: () => "Hello World"
-    }
-}
+import db from './db.js'
+
+import models from './models/index.js'
+import resolvers from './resolvers/index.js'
+import {default as typeDefs} from './schemas/mainSchema.js'
 
 async function startExpressApolloServer() {
+    // get the user info from a JWT
+    const getUser = token => {
+        if (token) {
+            try {
+                // return the user information from the token
+                return jwt.verify(token, JWT_SECRET)
+            } catch (err) {
+                // if there's a problem with the token, throw an error
+                throw new Error('Session invalid')
+            }
+        }
+    }
 
-    // const { typeDefs } = require('./graphql/schemas/schema');
-    // const { resolvers } = require('./graphql/resolvers/resolver');
+    const server = new ApolloServer({
+        typeDefs,
+        resolvers,
+        introspection: NODE_ENV !== 'production',
+        context: ({req}) => {
+            // get the user token from the headers
+            const token = req.headers.authorization || null
+            // try to retrieve a user with the token
+            const user = getUser(token)
+            // for now, let's log the user to the console:
+            console.log(user)
+            // add the db models and the user to the context
+            return {models, user}
+        }
+    })
+    await server.start()
 
-    const server = new ApolloServer({ typeDefs, resolvers });
-    await server.start();
+    const app = express()
 
-    const app = express();
-    
-    server.applyMiddleware({ app, path: '/api/graphql' });
+    // Connect to the database
+    db.connect(DB_HOST)
 
-    await new Promise(resolve => app.listen({ port: PORT }, resolve))
+    server.applyMiddleware({app, path: '/api/graphql'})
+
+    await new Promise(resolve => app.listen({port: PORT}, resolve))
     console.log(`Server running at http://localhost:${PORT}${server.graphqlPath}`)
-    return { server, app }
+    return {server, app}
 }
 
 startExpressApolloServer()
