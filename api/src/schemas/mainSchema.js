@@ -6,11 +6,16 @@ export default gql`
     type Article {
         id: ID!
         content: String!
-        author: String!
+        author: User!
         createdAt: DateTime!
         updatedAt: DateTime!
         favoriteCount: Int!
         favoritedBy: [User!]
+    }
+    type ArticleFeed {
+        articles: [Article]!
+        cursor: String!
+        hasNextPage: Boolean!
     }
     type User {
         id: ID!
@@ -24,6 +29,7 @@ export default gql`
     type Query {
         articles: [Article!]!
         article(id: ID!): Article!
+        articleFeed(cursor: String): ArticleFeed
         user(username: String!): User
         users: [User!]!
         me: User!

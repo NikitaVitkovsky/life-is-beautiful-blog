@@ -4,7 +4,8 @@ const UserSchema = new mongoose.Schema({
         username: {
             type: String, required: true,
             index: {unique: true}
-        }, email: {
+        },
+        email: {
             type: String, required: true,
             index: {unique: true}
         },
@@ -14,7 +15,13 @@ const UserSchema = new mongoose.Schema({
         },
         avatar: {
             type: String
-        }
+        },
+        articles: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Article'
+            }
+        ]
     },
     {
         timestamps: true
