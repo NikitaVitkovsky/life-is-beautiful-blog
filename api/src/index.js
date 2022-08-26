@@ -9,7 +9,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 //environment variables
-const PORT = process.env.APP_PORT || 4000
+const PORT = process.env.PORT || 4000
 const DB_HOST = process.env.DB_HOST
 const JWT_SECRET = process.env.JWT_SECRET
 const NODE_ENV = process.env.NODE_ENV
