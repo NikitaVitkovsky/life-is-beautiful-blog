@@ -5,7 +5,6 @@ import {
     ForbiddenError
 } from 'apollo-server-express'
 import mongoose from 'mongoose'
-
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -22,6 +21,8 @@ export default {
             throw new AuthenticationError('You must be signed in to create a article')
         }
         return await models.Article.create({
+            title: args.title,
+            description: args.description,
             content: args.content,
             // reference the author's mongo id
             author: mongoose.Types.ObjectId(user.id)

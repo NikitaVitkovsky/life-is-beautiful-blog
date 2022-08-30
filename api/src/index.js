@@ -5,8 +5,8 @@ import helmet from 'helmet'
 import cors from 'cors'
 import depthLimit from 'graphql-depth-limit'
 import {createComplexityLimitRule} from 'graphql-validation-complexity'
-import dotenv from 'dotenv'
-dotenv.config()
+import env from 'dotenv'
+env.config()
 
 //environment variables
 const PORT = process.env.PORT || 4000

@@ -5,6 +5,8 @@ export default gql`
 
     type Article {
         id: ID!
+        title: String!
+        description: String!
         content: String!
         author: User!
         createdAt: DateTime!
