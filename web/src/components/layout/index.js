@@ -9,7 +9,9 @@ const Layout = () => {
         <Header />
 
         <main className="bg-gradient-to-br from-indigo-200 via-red-200 to-yellow-100">
-            <Outlet />
+            <div className="container mx-auto py-8">
+                <Outlet />
+            </div>
         </main>
 
         <Footer />

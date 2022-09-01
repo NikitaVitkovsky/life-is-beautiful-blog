@@ -16,11 +16,11 @@ const Article = ({ article }) => {
     return (
             <article className="space-y-3 divide-y divide-teal-700 text-slate-800 bg-teal-50 rounded-lg py-3 px-5 hover:shadow-lg hover:bg-teal-100 hover:scale-105 ease-out duration-300">
                 {format(parseISO(article.createdAt), 'dd.LL.yyyy')}
-                <div className="">
+                <Link className="" to={`article/${article.id}`}>
                     <h3 className="text-lg font-medium">{article.title}</h3>
-                    <ReactMarkdown className="text-md" children={shorten(article.content, 200)} />
-                    <a href=""></a>
-                </div>
+                    <ReactMarkdown className="text-md" children={shorten(article.description, 200)} />
+                    <span className="text-blue-400 hover:text-blue-600">Read more</span>
+                </Link>
 
                 <div className="flex flex-row justify-between items-center pt-3">
                     <div className="flex flex-row items-center text-lg font-medium">

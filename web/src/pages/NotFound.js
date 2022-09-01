@@ -21,7 +21,7 @@ const NotFound = () => {
                     </div>
                     <div className="mt-4">
                         <img
-                            src="https://pixabay.com/get/gf08c24d99e8b746039374064781c0b103eb0d7c1a0b147f0147a7ee9721b15ce634716e3a3ec21a07eae482a99b088663d4e86a8ff46b010fd0353319cf6607f8fcb5bbd5155758d1349e436c2399d67_640.jpg"
+                            src="https://images.unsplash.com/photo-1628152184828-a1c78fbb6b1a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80"
                             alt="img"
                             className="object-cover w-full h-full"
                         />
