@@ -60,7 +60,6 @@ cache.writeQuery({
     }
 )
 
-
 client.onResetStore(() => cache.writeQuery({
     query: LocalStateIsLoggedInDocument,
     data: {

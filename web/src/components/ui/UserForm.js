@@ -73,7 +73,7 @@ const UserForm = props => {
 
                 <button type="submit"
                         className="py-3 w-full bg-green-500 rounded-md text-white text-center transition ease-in-out duration-200 hover:bg-green-600">
-                    {props.formType === 'signup' ? 'Create Account' : 'Register'}
+                    {props.formType === 'signup' ? 'Create Account' : 'Login'}
                 </button>
             </form>
         </div>

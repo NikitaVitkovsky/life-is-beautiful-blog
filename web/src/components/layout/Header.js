@@ -17,7 +17,7 @@ const IS_LOGGED_IN = gql`
 
 const Header = () => {
     // query hook for user logged in state
-    const { data, client } = useQuery(IS_LOGGED_IN)
+    const { data, error, loading, client } = useQuery(IS_LOGGED_IN)
     const navigate = useNavigate()
 
     const handleLogOut = () => {
@@ -40,7 +40,8 @@ const Header = () => {
         // redirect to the homepage
         navigate("/", {replace: true})
     }
-
+    if (loading) return <p>Loading...</p>
+    if (error) return <p>Error! Article not found</p>
     return (
         <header className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 shadow-lg">
              <div id="header-content" className="h-full py-1.5 container mx-auto flex justify-between items-center">
